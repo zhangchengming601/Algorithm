@@ -1,5 +1,13 @@
 package com.zcm.zcy_algorithm_myStudy.DynamicProgramming;
 
+
+/**
+ * 纸牌问题
+ *
+ * 题目： 给定一个整型数组arr，代表数值不同的纸牌排成一条线。玩家A和玩家B依次拿走每张纸 牌，
+ * 规定玩家A先拿，玩家B后拿，但是每个玩家每次只能拿走最左或最右的纸牌，玩家A 和玩家B都绝顶聪明。
+ * 请返回最后获胜者的分数。
+ * */
 public class Code08_CardsInLine {
 
     public static int win(int[] arr){
@@ -56,9 +64,39 @@ public class Code08_CardsInLine {
 
 
     public static void main(String[] args) {
-        int a[]={1,100,1};
-        int result = win(a);
-        System.out.println(result);
+        int a[]={1,100,1,90};
+        System.out.println(dpWay(a));
     }
 
+
+    public static int dpWay(int[] arr){
+        if (arr==null || arr.length==0){
+            return 0;
+        }
+        // 数组的长度
+        int length = arr.length;
+
+        // 定义firstDP这个二维数组，
+        int firstDP[][] = new int[length][length];
+        // 确定对角线上的元素
+        for(int i=0 ; i<length ; i++){
+            firstDP[i][i] = arr[i];
+        }
+        // 定义secondDP二维数组
+        int secondDP[][] = new int[length][length];
+
+        // 按照对角线，一层一层的向外给两个二维数组赋值
+        for (int index=1 ; index<length ; index++){
+            int row = 0;
+            int col = index;
+            while (row<length && col<length){
+                firstDP[row][col] = Math.max((arr[row] + secondDP[row+1][col]) , (arr[col] + secondDP[row][col-1]));
+                secondDP[row][col] = Math.min((firstDP[row+1][col]) , (firstDP[row][col-1]));
+                row++;
+                col++;
+            }
+        }
+
+        return Math.max(firstDP[0][length-1],secondDP[0][length-1]);
+    }
 }
