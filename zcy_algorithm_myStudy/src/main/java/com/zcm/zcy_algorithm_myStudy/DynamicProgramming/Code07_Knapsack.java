@@ -52,10 +52,35 @@ public class Code07_Knapsack {
         int noSelect = process2(weight,value,index+1,rest);
 
         int yesSelect = -1;
-        yesSelect = process2(weight,value,index+1,rest-weight[index]);
-        if (yesSelect != -1){
-            yesSelect+=value[index];
+        int yesSelectNext = process2(weight,value,index+1,rest-weight[index]);
+        if (yesSelectNext != -1){
+            yesSelect = value[index] + yesSelectNext;
         }
         return Math.max(noSelect,yesSelect);
+    }
+
+
+    public static int dpWay(int[] weight , int[] value ,  int bag){
+        int dp[][] = new int[weight.length+1][bag+1];
+        dpProcess(weight,value,bag,dp);
+        return dp[0][bag];
+    }
+
+    public static void dpProcess(int[] weight , int[] value , int bag, int[][] dp){
+        // 1. dp的最下面的一层元素已经确定（都是0）
+        // 2. 首先外层for循环表示从倒数第二层开始，逐层向上循环
+        for (int index=weight.length ; index>=0 ; index--){
+            // 3. 内层for循环表示：当层数确定下来以后，在这一层，从左向右遍历每个元素
+            for (int rest=0 ; rest<=bag ; rest++){
+                int noSelect = dp[index+1][rest];
+
+                int yesSelect = -1;
+                if (rest-weight[index] >= 0){
+                    yesSelect = value[index] + dp[index+1][rest-weight[index]];
+                }
+
+                dp[index][rest] = Math.max(noSelect,yesSelect);
+            }
+        }
     }
 }
