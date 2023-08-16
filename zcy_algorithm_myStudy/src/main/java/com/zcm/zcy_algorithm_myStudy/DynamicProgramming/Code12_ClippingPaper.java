@@ -11,7 +11,7 @@ import java.util.Map;
  * arr每一个字符串，代表一张贴纸，你可以把单个字符剪开使用，目的是拼出str来
  * 返回需要至少多少张贴纸可以完成这个任务？
  * 例子：str= “babac”，arr = {“ba”,“c”,“abcd”}
- * ba + ba + c 3 abcd + abcd 2 abcd+ba 2
+ *  ba + ba + c
  * */
 public class Code12_ClippingPaper {
 
