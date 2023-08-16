@@ -72,4 +72,69 @@ public class Code14_Coffee {
     }
 
 
+    /**
+     *  int[] drinks : drinks 表示每个人喝完咖啡的时间   固定参数
+     *  int a  : 咖啡机洗一个咖啡杯的时间 固定变量
+     *  int b : 咖啡杯自己挥发干净的时间 固定变量
+     *
+     */
+    public static int processByDP(int[] drinks, int a, int b ){
+        int N = drinks.length;
+
+        if (a>b){
+            // 如果洗杯子的时间大于等于杯子自己挥发干净的时间
+            // 那么就没必要洗，也没必要改动态规划
+            // 最后一杯咖啡挥发的时间就是所有咖啡杯变干净的最早完成时间
+            return drinks[N-1] + b;
+        }
+
+        // a<b 才有必要改动态规划
+        // limit 全部交给咖啡机洗，总时间
+        int limit = 0;
+        for (int i=0; i<N; i++){
+            limit = Math.max(drinks[i],limit) + a;
+        }
+
+        int[][] dp = new int[N][limit+1];
+
+        // 给dp的最后一行（N-1）赋值
+        // 变量i表示咖啡机何时可用的时间
+        for(int i=0; i<limit+1; i++){
+            int machineTime = Math.max(drinks[N-1],i)+a;  // 交给咖啡机洗 总的时间
+            int selfTime = drinks[N-1] +b;   // 咖啡杯自己会发干净的总时间
+            dp[N-1][i] = Math.min(machineTime,selfTime);
+        }
+
+        // 给dp的 N-2 ...0行赋值
+        for (int index=N-2; index>=0; index--){
+            for (int col=0;col<limit+1;col++){
+                // 1. 交给咖啡机去洗
+                // 1.1 注意： 此时washTime是可能超过limit+1的 ,所以需要进行处理
+                int p1 = Integer.MAX_VALUE;
+                int washTime = Math.max(drinks[index],col)+a;
+                if (washTime < limit+1){
+                    p1 = Math.max(washTime,dp[index+1][washTime]);
+                }
+
+                // 2. 让杯子自己挥发干净
+                int selfTime = drinks[index] + b;
+                int next2 = dp[index+1][col];
+                int p2 = Math.max(selfTime,next2);
+
+                dp[index][col] = Math.min(p1,p2);
+            }
+        }
+        return dp[0][0];
+    }
+
+
+    public static void main(String[] args) {
+        int[] arr = {1,1,5,5,7,10,12,12,12,12,12,12,15};
+        int a = 3;
+        int b =10;
+        System.out.println("暴力递归="+getAnswer1(arr,a,b));
+        System.out.println("动态规划="+processByDP(arr,a,b));
+    }
+
+
 }
