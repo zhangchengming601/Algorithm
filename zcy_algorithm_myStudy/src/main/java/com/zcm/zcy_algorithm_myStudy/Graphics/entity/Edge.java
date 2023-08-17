@@ -1,4 +1,4 @@
-package com.zcm.zcy_algorithm_myStudy.Graphics;
+package com.zcm.zcy_algorithm_myStudy.Graphics.entity;
 
 
 /**

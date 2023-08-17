@@ -1,5 +1,9 @@
 package com.zcm.zcy_algorithm_myStudy.Graphics;
 
+import com.zcm.zcy_algorithm_myStudy.Graphics.entity.Edge;
+import com.zcm.zcy_algorithm_myStudy.Graphics.entity.Graph;
+import com.zcm.zcy_algorithm_myStudy.Graphics.entity.Node;
+
 public class GraphGenerator {
 
     /**
