@@ -33,9 +33,29 @@ public class JianZhi01_MaximumSumOfContinuousSubarrays {
         return maxSum;
     }
 
+    /**
+     * 使用动态规划
+     *
+     * 2. dp[i] 表示来到数组中第i个元素（包括i）时，当前子数组的和
+     * 3. 当前字数组：起始位置并不一定是array[0] ，而是看之前是否出现过dp[i]<0的情况
+     * */
+    public static int getAnswerByDP(int[] array){
+        int dp[] = new int[array.length];
+        dp[0] = array[0];
+        int result =array[0];
+        for (int index=1; index<array.length; index++){
+            dp[index] = dp[index-1]<=0 ? array[index] : dp[index-1]+array[index];
+            if (result<dp[index]) {
+                result = dp[index];
+            }
+        }
+        return result;
+    }
+
 
     public static void main(String[] args) {
         int[] array = {1,-2,3,10,-4,7,2,-5};
         System.out.println(getAnswerByGreedy(array));
+        System.out.println(getAnswerByDP(array));
     }
 }
