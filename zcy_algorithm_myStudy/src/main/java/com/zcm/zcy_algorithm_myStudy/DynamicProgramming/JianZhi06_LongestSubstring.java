@@ -8,6 +8,10 @@ import java.util.HashMap;
  * https://www.nowcoder.com/practice/48d2ff79b8564c40a50fa79f9d5fa9c7?tpId=13&tqId=2276769&ru=/exam/oj/ta&qru=/ta/coding-interviews/question-ranking&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D13
  * */
 public class JianZhi06_LongestSubstring {
+
+    /**
+     * 双指针方法
+     * */
     public static int processByDoublePointer(String s){
         // 1. 定义一个map，其中key是字符串中的字符 ，value是这个字符在字符串中的索引下标
         HashMap<Character, Integer> map = new HashMap<>();
@@ -31,6 +35,34 @@ public class JianZhi06_LongestSubstring {
         }
         return res;
     }
+
+
+    /**
+     * 动态规划+哈希表
+     * */
+    public static int processByDP(String s){
+        HashMap<Character, Integer> map = new HashMap<>();
+        int dp[] =new int[s.length()];
+        dp[0] = 1;
+        int res =0;
+        map.put(s.charAt(0),0);
+        for (int i=1; i<s.length(); i++){
+            if (map.containsKey(s.charAt(i))){
+                // 新加入一个字符，如果与前面重复了，那就是当前位置减去它重复之前字符出现的位置的长度（考虑它的前一个字符的基础上）
+                dp[i] = Math.min(dp[i-1]+1,i-map.get(s.charAt(i)));
+            } else {
+                // 新加入一个字符，与前面的都不重复，那么最长无重复子串肯定就是在前面的基础上加1
+                dp[i] = dp[i-1]+1;
+            }
+            //加入哈希表
+            map.put(s.charAt(i),i);
+            //维护最大值
+            res = Math.max(res,dp[i]);
+
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(processByDoublePointer(" "));
