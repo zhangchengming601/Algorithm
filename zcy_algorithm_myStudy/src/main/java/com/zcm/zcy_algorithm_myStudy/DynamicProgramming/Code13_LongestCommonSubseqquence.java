@@ -47,4 +47,84 @@ public class Code13_LongestCommonSubseqquence {
         }
         return dp[str1.length()-1][str2.length()-1];
     }
+
+
+
+    public String process02 (String s1, String s2) {
+        if (s1.length()==0 || s2.length()==0) {
+            return "";
+        }
+
+        char[] arr1 = s1.toCharArray();
+        char[] arr2 = s2.toCharArray();
+
+        int len1 = s1.length();  // 行维度
+        int len2 = s2.length();  // 列维度
+
+        String[][] dp = new String[len1+1][len2+1];
+
+        // 第一行第一列赋值为空字符串
+        for (int i=0; i<len2; i++) {
+            dp[0][i] = "";
+        }
+        for(int i=0; i<len1; i++){
+            dp[i][0] = "";
+        }
+
+        // 给其他元素赋值
+        for (int row=1; row<len1; row++){
+            for (int col=1; col<len2;col++){
+                if (arr1[row]==arr2[col]){
+                    dp[row][col] = arr1[row] + dp[row-1][col-1];
+                }
+            }
+        }
+
+
+        return null;
+    }
+
+    public static String process03 (String s1, String s2) {
+        if (s1.length()==0 || s2.length()==0) {
+            return "";
+        }
+
+        char[] arr1 = s1.toCharArray();
+        char[] arr2 = s2.toCharArray();
+
+        int len1 = s1.length();  // 行维度
+        int len2 = s2.length();  // 列维度
+
+        String[][] dp = new String[len1][len2];
+
+        dp[0][0] = arr1[0]==arr2[0] ? String.valueOf(arr1[0]): "";
+        // 第一行第一列赋值为空字符串
+        for (int i=1; i<len2; i++) {
+            dp[0][i] = dp[0][i-1] !="" ? dp[0][i-1] : (arr1[0]==arr2[i] ? String.valueOf(arr1[0]) : "");
+        }
+        for(int i=1; i<len1; i++){
+            dp[i][0] = dp[i][0] !="" ? dp[0][i-1] : (arr1[i]==arr2[0] ? String.valueOf(arr2[0]) : "");
+        }
+
+        // 给其他元素赋值
+        for (int row=1; row<len1; row++){
+            for (int col=1; col<len2;col++){
+                dp[row][col] = dp[row][col-1].length() > dp[row-1][col].length() ? dp[row][col-1] : dp[row-1][col];
+                if (arr1[row] == arr2[col]) {
+                    dp[row][col] = dp[row][col].length()> dp[row-1][col-1].length()+1 ? dp[row][col] : dp[row-1][col-1]+String.valueOf(arr1[row]);
+                }
+            }
+        }
+
+
+        return dp[len1-1][len2-1] == "" ? "-1" : dp[len1-1][len2-1];
+    }
+
+    public static void main(String[] args) {
+        String s1= "1a1a31";
+        String s2 = "1a231";
+        System.out.println(process03(s1,s2));
+    }
+
+
 }
