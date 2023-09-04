@@ -22,7 +22,7 @@ public class Code02_分发糖果 {
         // 再从右向左比较左节点比右节点大的情况
         for (int i=ratings.length-2;i>=0;i--){
 
-            if (ratings[i]>ratings[i+1] && num[i]<num[i+1]){
+            if (ratings[i]>ratings[i+1] && num[i]<=num[i+1]){
                 // 如果左节点大于右节点，并且左节点的得分小于右节点，则左节点的得分比右节点大一个
                 num[i]=num[i+1]+1;
             }
