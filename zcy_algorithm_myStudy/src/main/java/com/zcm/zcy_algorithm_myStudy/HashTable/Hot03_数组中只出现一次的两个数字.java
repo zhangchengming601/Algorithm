@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Hot_03_数组中只出现一次的两个数字 {
+public class Hot03_数组中只出现一次的两个数字 {
 
     public int[] FindNumsAppearOnce (int[] nums) {
 
