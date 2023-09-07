@@ -2,6 +2,8 @@ package com.zcm.zcy_algorithm_myStudy.Sort;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 /**
@@ -11,7 +13,6 @@ import java.util.PriorityQueue;
  * */
 public class JianZhi03_MinimumNumOfK {
     public ArrayList<Integer> GetLeastNumbers_Solution (int[] input, int k) {
-
         ArrayList<Integer> res = new ArrayList<>();
         if (input.length==0 || k==0) {
             return res;
@@ -34,8 +35,14 @@ public class JianZhi03_MinimumNumOfK {
             }
         }
         //堆中元素取出入数组
-        for(int i = 0; i < k; i++)
-            res.add(queue.poll());
+        int[] arr = new int[k];
+        for(int i=k-1;i>=0;i--){
+            arr[i] = queue.poll();
+        }
+
+        for(int i=0;i<arr.length;i++){
+            res.add(arr[i]);
+        }
         return res;
     }
 }
